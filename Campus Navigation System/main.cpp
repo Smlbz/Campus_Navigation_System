@@ -25,6 +25,11 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, frameBufferSizeCallBack);
 	glfwSetKeyCallback(window, keyCallBack);
 
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
+		cout << "Failed to initialize GLAD";
+		return -1;
+	}
+
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 	}
