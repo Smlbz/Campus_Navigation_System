@@ -4,10 +4,10 @@
 using namespace std;
 
 
-void frameBufferSizeCallBack(GLFWwindow* window,int width,int height) {
+static void frameBufferSizeCallBack(GLFWwindow* window,int width,int height) {
 	cout << "size:" << width <<"  "<< height<<endl;
 }
-void keyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
+static void keyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	cout << "°´ÏÂÁË:" << key << endl << "scancode:"<<scancode << ' ' <<"action:" << action << ' ' <<"mods:" << mods << endl;
 }
 
