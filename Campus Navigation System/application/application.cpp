@@ -31,6 +31,7 @@ bool Application::init(const int& width,const int& height){
 		std::cout << "Failed to initialize GLAD";
 		return false;
 	}
+	glfwSetFramebufferSizeCallback(mWindow, frameBufferSizeCallBack);
 	return true;
 }
 bool Application::update() {
@@ -43,4 +44,9 @@ bool Application::update() {
 }
 void Application::destroy() {
 	glfwTerminate();
+}
+void Application::frameBufferSizeCallBack(GLFWwindow* window, int width, int height) {
+	if (Application::getInstance()->mResizeCallBack != nullptr) {
+		Application::getInstance()->mResizeCallBack(width, height);
+	}
 }
