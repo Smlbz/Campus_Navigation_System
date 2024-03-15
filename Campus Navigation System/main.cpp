@@ -10,9 +10,6 @@ static void frameBufferSizeCallBack(GLFWwindow* window,int width,int height) {
 static void keyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	std::cout << "°´ÏÂÁË:" << key <<std:: endl << "scancode:"<<scancode << ' ' <<"action:" << action << ' ' <<"mods:" << mods << std::endl;
 }
-
-
-
 int main() {
 	if (!App->init(800, 1200)) {
 		return -1;
