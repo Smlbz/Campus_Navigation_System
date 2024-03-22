@@ -33,6 +33,8 @@ bool Application::init(const int& width,const int& height){
 	}
 	glfwSetFramebufferSizeCallback(mWindow, frameBufferSizeCallBack);
 	glfwSetWindowUserPointer(mWindow, this);
+	glfwSetKeyCallback(mWindow, keyCallBack);
+	glfwSetCursorPosCallback(mWindow,cursorPos);
 	return true;
 }
 bool Application::update() {
@@ -50,5 +52,17 @@ void Application::frameBufferSizeCallBack(GLFWwindow* window, int width, int hei
 	Application* self=(Application * )glfwGetWindowUserPointer(window);
 	if (self->mResizeCallBack != nullptr) {
 		self->mResizeCallBack(width, height);
+	}
+}
+void Application::keyCallBack(GLFWwindow* window, int key, int scancode, int action, int mods) {
+	Application* self = (Application*)glfwGetWindowUserPointer(window);
+	if (self->mKeyCallBack != nullptr) {
+		self->mKeyCallBack(key, scancode, action, mods);
+	}
+}
+void Application::cursorPos(GLFWwindow* window, double xpos, double ypos) {
+	Application* self = (Application*)glfwGetWindowUserPointer(window);
+	if (self->mCursorPos != nullptr) {
+		self->mCursorPos(xpos, ypos);
 	}
 }
