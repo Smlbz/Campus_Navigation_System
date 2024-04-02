@@ -6,6 +6,9 @@ set(CMAKE_CXX_STANDARD 11)
 
 add_definitions(-DDEBUG)
 
+file(GLOB ASSETS "./assets")
+file(COPY ${ASSETS} DESTINATION ${CMAKE_BINARY_DIR})
+
 include_directories(
 	SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/thirdParty/include
 )
@@ -16,6 +19,7 @@ link_directories(
 
 add_subdirectory(wrapper)
 add_subdirectory(application)
+add_subdirectory(glFramework)
 
 aux_source_directory(. SRCS)
 
