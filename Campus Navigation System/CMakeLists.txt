@@ -19,6 +19,6 @@ add_subdirectory(application)
 
 aux_source_directory(. SRCS)
 
-add_executable(QDU_Campus_Navigation ${SRCS} "main.cpp" "glad.c")
+add_executable(QDU_Campus_Navigation ${SRCS} "main.cpp" "glad.c" )
 
 target_link_libraries(QDU_Campus_Navigation glfw3_mt.lib wrapper app)
