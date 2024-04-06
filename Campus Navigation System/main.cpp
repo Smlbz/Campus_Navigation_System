@@ -60,7 +60,7 @@ void prepareVAO() {
 	glBindVertexArray(0);
 }
 void prepareShader() {
-	shader = new Shader("assets/shaders/vertex.glsl", "assets/shaders/fragment.glsl");
+	shader = new Shader("assets/Shaders/vertex.glsl", "assets/Shaders/fragment.glsl");
 }
 void render() {
 	glCall(glClear(GL_COLOR_BUFFER_BIT));
