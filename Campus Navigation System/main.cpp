@@ -82,6 +82,7 @@ int main() {
 	prepareVAO();
 	prepareShader();
 	while (App->update()){
+		//glCall(glClear(GL_COLOR_BUFFER_BIT));
 		render();
 	}
 	App->destroy();

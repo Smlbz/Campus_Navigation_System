@@ -15,8 +15,8 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 		vShaderFile.open(vertexPath);
 		fShaderFile.open(fragmentPath);
 		std::stringstream vShaderStream;
-		std::stringstream fShaderStream;
 		vShaderStream << vShaderFile.rdbuf();
+		std::stringstream fShaderStream;
 		fShaderStream << fShaderFile.rdbuf();
 		vShaderFile.close();
 		fShaderFile.close();
@@ -24,7 +24,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 		fragmentCode = fShaderStream.str();
 	}
 	catch (std::ifstream::failure& error) {
-		std::cerr << "ERROR:Shader File Error: " << error.what() << std::endl;
+		std::cout << "ERROR:Shader File Error: " << error.what() << std::endl;
 	}
 	const char* vertexShaderSource = vertexCode.c_str();
 	const char* fragmentShaderSource = fragmentCode.c_str();
@@ -39,13 +39,13 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(vertex, 1024, NULL, infoLog);
-		std::cerr << "ERROR:SHADER COMPILE ERROR --VERTEX" << std::endl << infoLog << std::endl;
+		std::cout << "ERROR:SHADER COMPILE ERROR --VERTEX" << std::endl << infoLog << std::endl;
 	}
 	glCompileShader(fragment);
 	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
 	if (!success) {
 		glGetShaderInfoLog(fragment, 1024, NULL, infoLog);
-		std::cerr << "ERROR:SHADER COMPILE ERROR --FRAGMENT" << std::endl << infoLog << std::endl;
+		std::cout << "ERROR:SHADER COMPILE ERROR --FRAGMENT" << std::endl << infoLog << std::endl;
 	}
 	mProgram = glCreateProgram();
 	glAttachShader(mProgram, vertex);
@@ -54,7 +54,7 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 	glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
 	if (!success) {
 		glGetProgramInfoLog(mProgram, 1024, NULL, infoLog);
-		std::cerr << "ERROR:SHADER LINK ERROR" << std::endl << infoLog << std::endl;
+		std::cout << "ERROR:SHADER LINK ERROR" << std::endl << infoLog << std::endl;
 	}
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
