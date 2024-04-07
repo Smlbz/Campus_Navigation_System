@@ -1,4 +1,5 @@
 #include "Shader.h"
+#include "Shader.h"
 #include"../wrapper/checkError.h"
 #include<string>
 #include<fstream>
@@ -33,29 +34,15 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath){
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(vertex, 1, &vertexShaderSource, NULL);
 	glShaderSource(fragment, 1, &fragmentShaderSource, NULL);
-	int success = 0;
-	char infoLog[1024];
 	glCompileShader(vertex);
-	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(vertex, 1024, NULL, infoLog);
-		std::cout << "ERROR:SHADER COMPILE ERROR --VERTEX" << std::endl << infoLog << std::endl;
-	}
+	checkShaderErrors(vertex, "COMPILE");
 	glCompileShader(fragment);
-	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-	if (!success) {
-		glGetShaderInfoLog(fragment, 1024, NULL, infoLog);
-		std::cout << "ERROR:SHADER COMPILE ERROR --FRAGMENT" << std::endl << infoLog << std::endl;
-	}
+	checkShaderErrors(fragment, "COMPILE");
 	mProgram = glCreateProgram();
 	glAttachShader(mProgram, vertex);
 	glAttachShader(mProgram, fragment);
 	glLinkProgram(mProgram);
-	glGetProgramiv(mProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(mProgram, 1024, NULL, infoLog);
-		std::cout << "ERROR:SHADER LINK ERROR" << std::endl << infoLog << std::endl;
-	}
+	checkShaderErrors(mProgram, "LINK");
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
 }
@@ -70,4 +57,26 @@ void Shader::begin(){
 
 void Shader::end(){
 	glCall(glUseProgram(0));
+}
+
+void Shader::checkShaderErrors(GLuint target, std::string type){
+	int success = 0;
+	char infoLog[1024];
+	if (type == "COMPILE") {
+		glGetShaderiv(target, GL_COMPILE_STATUS, &success);
+		if (!success) {
+			glGetShaderInfoLog(target, 1024, NULL, infoLog);
+			std::cout << "ERROR:SHADER COMPILE ERROR" << std::endl << infoLog << std::endl;
+		}
+	}
+	else if (type == "LINK") {
+		glGetProgramiv(target, GL_LINK_STATUS, &success);
+		if (!success) {
+			glGetProgramInfoLog(target, 1024, NULL, infoLog);
+			std::cout << "ERROR:SHADER LINK ERROR" << std::endl << infoLog << std::endl;
+		}
+	}
+	else {
+		std::cout << "Error:Check shader errors Type is wrong!"<<std::endl;
+	}
 }
