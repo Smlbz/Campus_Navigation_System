@@ -6,30 +6,47 @@
 #include"wrapper/checkError.h"
 #include"application/Application.h"
 #include"glFramework/Shader.h"
+struct State {
+	int key, scancode, Keyaction, Keymods;
+	double xpos, ypos;
+	int button, Mouseaction, Mousemods;
+}state;
 static void OnResize(int width, int height) {
 	glCall(glViewport(0, 0, width, height));
 }
 static void OnKey(int key, int scancode, int action, int mods) {
-	;
+	state.key = key;
+	state.scancode = scancode;
+	state.Keyaction;
+	state.Keymods = mods;
 }
 static void OnCursor(double xpos, double ypos) {
-	;
+	state.xpos = xpos;
+	state.ypos = ypos;
+}
+static void OnMouse(int button, int action, int mods) {
+	state.button = button;
+	state.Mouseaction = action;
+	state.Mousemods = mods;
 }
 Shader* shader = nullptr;
 GLuint vao;
 void prepareVAO() {
 	float positions[] = {
-		-0.5f,-0.5f,0.0f,
-		0.5f,-0.5f,0.0f,
-		0.0f,0.5f,0.0f,
+		-0.36f,0.4f,0.0f,
+		-0.36f,0.2f,0.0f,
+		0.36f,0.4f,0.0f,
+		0.36f,0.2f,0.0f
+
 	};
 	float colors[] = {
-		1.0f,0.0f,0.0f,
-		0.0f,1.0f,0.0f,
-		0.0f,0.0f,1.0f
+		0.8f,0.1f,0.1f,
+		0.1f,0.8f,0.1f,
+		0.1f,0.1f,0.8f
 	};
 	unsigned int indices[] = {
 		0,1,2,
+		2,3,1
 	};
 	GLuint posVbo, colorVbo;
 	glGenBuffers(1, &posVbo);
@@ -66,7 +83,7 @@ void render() {
 	glCall(glClear(GL_COLOR_BUFFER_BIT));
 	shader->begin();
 	glCall(glBindVertexArray(vao));
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
 	shader->end();
 }
@@ -77,12 +94,12 @@ int main() {
 	App->setResizeCallBack(OnResize);
 	App->setKeyCallBack(OnKey);
 	App->setCursorPos(OnCursor);
+	App->setMouseCallBack(OnMouse);
 	glCall(glViewport(0, 0, 600, 1000));
-	glCall(glClearColor(0.8f, 0.2f, 0.1f, 0.15f));
+	glCall(glClearColor(0.95f, 0.74f, 0.8f, 1.0f));
 	prepareVAO();
 	prepareShader();
 	while (App->update()){
-		//glCall(glClear(GL_COLOR_BUFFER_BIT));
 		render();
 	}
 	App->destroy();
